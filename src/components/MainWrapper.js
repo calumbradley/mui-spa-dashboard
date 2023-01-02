@@ -1,10 +1,8 @@
 import React from 'react'
 import { Route, Routes } from "react-router-dom";
 // Material UI components
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
+import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
@@ -23,67 +21,19 @@ import Copyright from "./Copyright";
 import DashboardHome from "../pages/DashboardHome";
 import PerformanceHome from "../pages/PerformanceHome";
 import EmployeesHome from "../pages/EmployeesHome";
+import SignInPage from '../pages/SignInPage';
+// Import profile management
+import Profile from "./Profile";
+// Import Theme
+import theme from "./Theme";
+// Import route protection
+import ProtectedRoutes from "./ProtectedRoutes";
+// Import styled component AppBar
+import { AppBar } from "./AppBar/AppBar";
+// Import styled component Drawer
+import { Drawer } from "./Drawer/Drawer";
 
-
-const drawerWidth = 240;
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    '& .MuiDrawer-paper': {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      boxSizing: 'border-box',
-      ...(!open && {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }),
-);
-
-const mdTheme = createTheme({
-  palette: {
-      primary: {
-        main: '#3f51b5',
-        contrastText: '#fff',
-      },
-      secondary: {
-        main: '#f44336',
-        contrastText: '#fff',
-      },
-  },
-});;
-
+export const drawerWidth = 240;
 
 const MainWrapper = () => {
 
@@ -93,7 +43,7 @@ const MainWrapper = () => {
   };
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <AppBar position="absolute" open={open}>
           <Toolbar
@@ -122,6 +72,7 @@ const MainWrapper = () => {
             >
               Dashboard
             </Typography>
+            <Profile />
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -167,9 +118,12 @@ const MainWrapper = () => {
             <div className="content">
               {/* Add SPA routes here */}
               <Routes>
-                <Route path="/" element={<DashboardHome />} />
-                <Route path="/performance" element={<PerformanceHome />} />
-                <Route path="/employee" element={<EmployeesHome />} />
+                <Route path="/signin" element={<SignInPage />} />
+                <Route element={<ProtectedRoutes />}>
+                  <Route path="/" element={<DashboardHome />} />
+                  <Route path="/performance" element={<PerformanceHome />} />
+                  <Route path="/employee" element={<EmployeesHome />} />
+                </Route>
               </Routes>
             </div>
 
