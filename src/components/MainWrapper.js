@@ -22,6 +22,7 @@ import DashboardHome from "../pages/DashboardHome";
 import PerformanceHome from "../pages/PerformanceHome";
 import EmployeesHome from "../pages/EmployeesHome";
 import SignInPage from '../pages/SignInPage';
+import NotFound404 from "../pages/NotFound404";
 // Import profile management
 import Profile from "./Profile";
 // Import Theme
@@ -116,9 +117,12 @@ const MainWrapper = () => {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
             <div className="content">
-              {/* Add SPA routes here */}
+              {/* add SPA routes here */}
               <Routes>
                 <Route path="/signin" element={<SignInPage />} />
+                {/* 404 not found */}
+                <Route path='*' element={<NotFound404 />} />
+                {/* protected routes */}
                 <Route element={<ProtectedRoutes />}>
                   <Route path="/" element={<DashboardHome />} />
                   <Route path="/performance" element={<PerformanceHome />} />
