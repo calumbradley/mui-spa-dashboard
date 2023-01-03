@@ -3,7 +3,7 @@ import SignInPage from "../pages/SignInPage";
 
 // check if user logged in
 const useAuth = () => {
-  const user = { loggedIn: false }
+  const user = { loggedIn: true }
   return user.loggedIn;
 }
 
